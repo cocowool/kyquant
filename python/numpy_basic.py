@@ -55,3 +55,13 @@ print(stock_day_change[0:1,:5])
 
 ### 索引选取和切片选择
 
+# 上面例子中 ```stock_day_change[0:1,:5]``` 就是一种索引选取和切片选择的方式，0:1 表示第一行，:5 表示前5列。
+# 负数代表从后向前，-1 表示最后一个。
+
+# 倒数第一只、第二只股票，最后五个交易日的数据
+print(stock_day_change[-2:,-5:])
+
+# 交换前两只和最后两只股票的数据
+tmp = stock_day_change[0:2, 0:5].copy()
+stock_day_change[0:2,0:5] = stock_day_change[-2:,-5:]
+stock_day_change[-2:,-5:] = tmp
