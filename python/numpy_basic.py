@@ -65,3 +65,60 @@ print(stock_day_change[-2:,-5:])
 tmp = stock_day_change[0:2, 0:5].copy()
 stock_day_change[0:2,0:5] = stock_day_change[-2:,-5:]
 stock_day_change[-2:,-5:] = tmp
+
+# 数据转换，将涨跌幅使用 astype(int) 转换为int
+print(stock_day_change[0:2, 0:5])
+stock_day_change[0:2, 0:5].astype(int)
+
+# 使用 np.around() 函数，规整为float类型，只保留两位小数
+np.around(stock_day_change[0:2,0:5],2)
+
+# numpy 中 nan 表示数据缺失，下面的例子通过手工创建一个缺失数据，并用 nan_to_num 函数来用 0 填充 na
+tmp_test = stock_day_change[0:2, 0:5].copy()
+tmp_test[0][0] = np.nan
+tmp_test
+
+tmp_test = np.nan_to_num(tmp_test)
+tmp_test
+
+# 逻辑条件进行数据筛选，找出 涨幅超过 0.5 的股票时段，返回的 mask 是 bool 数组
+mask = stock_day_change[0:2,0:5] > 0.5
+print(mask)
+
+# 使用 mask 筛选出符合条件的数据
+tmp_test = stock_day_change[0:2, 0:5]
+tmp_test[mask]
+
+# 实际情况下，经常是筛选出符合条件的数据，并且重新赋值
+tmp_test[tmp_test > 0.5] = 1
+tmp_test
+
+# 可以使用 | & 完成复合逻辑，每个条件都要用括号括起来
+tmp_test = stock_day_change[-2:,-5:]
+print(tmp_test)
+tmp_test[(tmp_test > 1) | (tmp_test < -1)]
+
+### 通用序列函数
+# NumPy提供了一些可以高效处理序列的函数，下面是一些常用的
+#### np.all()
+# np.all 判断序列中的所有元素是否全部为 True
+np.all(stock_day_change[0:2,0:5] > 0)
+
+#### np.any()
+# np.any 函数判断序列中是否有元素为 True
+np.any(stock_day_change[0:2,0:5] > 0)
+
+#### maximum() 与 minimum()
+# 对两个序列对应的元素两两比较，maximum 结果集取大， minimum 结果集取小
+np.maximum(stock_day_change[0:2,0:5], stock_day_change[-2:,-5:])
+np.minimum(stock_day_change[0:2,0:5], stock_day_change[-2:,-5:])
+
+#### np.unique() 
+# 序列中数值唯一且不重复的值组成新的序列
+change_int = stock_day_change[0:2,0:5].astype(int)
+print(change_int)
+np.unique(change_int)
+
+#### np.diff() 函数
+# Diff() 对前后两个临近数值进行减法运算，默认情况下 axis = 1
+np.diff(stock_day_change[0:2, 0:5])
