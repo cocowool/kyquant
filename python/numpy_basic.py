@@ -122,3 +122,23 @@ np.unique(change_int)
 #### np.diff() 函数
 # Diff() 对前后两个临近数值进行减法运算，默认情况下 axis = 1
 np.diff(stock_day_change[0:2, 0:5])
+
+#### np.where() 
+# np.where() 函数蕾丝三目运算符，第一个参数是一个表达式，如果结果为True，则走第二个参数，否则走第三个参数
+# 下面将涨幅大于 0.5 的标志为 1，其他的都为 0
+tmp_test = stock_day_change[0:2, 0:5]
+print(np.where(tmp_test > 0.5, 1, 0))
+
+# 如果涨幅大于 0.5 的标志为 1，其他的数据保持不变
+tmp_test = stock_day_change[0:2, 0:5]
+print(np.where(tmp_test > 0.5, 1, tmp_test))
+
+# 如果需要复合逻辑，则需要使用 np.logical_and() 和 np.logical_or() 函数
+np.where(np.logical_and(tmp_test > 0.5, tmp_test < 1), 1, 0)
+
+#### 数据本地序列化
+# 通过 np.save() 可以将Numpy 序列持久化保存到本地
+np.save('stock_day_change', stock_day_change)
+# 读取只需要使用 np.load 就可以，文件要加上 npy 后缀
+stock_day_change = np.load('stock_day_change.npy')
+stock_day_change.shape
