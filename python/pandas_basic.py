@@ -44,3 +44,7 @@ df_stock0_5 = df_stock0.cumsum().resample('5D').ohlc()
 df_stock0_20 = df_stock0.cumsum().resample('21D').ohlc()
 df_stock0_5.head()
 
+from abupy import ABuMarketDrawing
+
+
+ABuMarketDrawing.plot_candle_stick(df_stock0_5.index, df_stock0_5['open'].values, df_stock0_5['high'].values, df_stock0_5['low'].values, df_stock0_5['close'].values, np.random.random(len(df_stock0_5)), None, 'stock', day_sum = False, html_bk = False, save = False)
