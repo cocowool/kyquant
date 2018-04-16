@@ -52,3 +52,4 @@ ABuMarketDrawing.plot_candle_stick(df_stock0_5.index, df_stock0_5['open'].values
 print(type(df_stock0_5['open'].values))
 print(df_stock0_5['open'].index)
 print(df_stock0_5.columns)
+
