@@ -64,3 +64,35 @@ ax.xaxis_date()
 # 引用 Bokeh 支持交互可视化
 from abupy import ABuMarketDrawing
 ABuMarketDrawing.plot_candle_form_klpd(tsla_df,html_bk=True)
+
+# 使用 Pandas 可视化数据
+demo_list = np.array([2,4,16,20])
+demo_window = 3
+pd.rolling_std(demo_list, window=demo_window, center=False)*np.sqrt(demo_window)
+
+tsla_df_copy = tsla_df.copy()
+# 计算投资回报
+tsla_df_copy['return'] = np.log(tsla_df['close'] / tsla_df['close'].shift(1))
+# 移动收益标准差
+tsla_df_copy['mov_std'] = pd.rolling_std(tsla_df_copy['return'], window=20, center=False) * np.sqrt(20)
+# 加权移动收益标准差
+tsla_df_copy['std_ewm'] = pd.ewmstd(tsla_df_copy['return'], span=20, min_periods=20, adjust=True) * np.sqrt(20)
+
+tsla_df_copy[['close', 'mov_std', 'std_ewm', 'return']].plot(subplots=True, grid=True)
+
+# 绘制均线
+tsla_df.close.plot()
+# ma 30
+pd.rolling_mean(tsla_df.close, window=30).plot()
+# ma 60
+pd.rolling_mean(tsla_df.close, window=60).plot()
+# ma 90
+pd.rolling_mean(tsla_df.close, window=90).plot()
+plt.legend(['close', '30 mv', '60 mv', '90 mv'], loc='best')
+
+# 验证低开高走第二天趋势
+
+
+# searborn
+import seaborn as sns
+sns.distplot(tsla_df['p_change'], bins=80)
